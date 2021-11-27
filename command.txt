@@ -1,0 +1,21 @@
+library(readr)
+Examen_Take_home_data <- read_csv("Examen-Take_home-data.csv")
+nrow(df)
+ncol(df)
+
+plot(df)
+
+km <- kmeans(df, 3, iter.max = 10, nstart = 1,
+       algorithm = c("Hartigan-Wong", "Lloyd", "Forgy",
+                     "MacQueen"), trace=FALSE)
+
+fviz_cluster(km, data = df)
+
+aggregate(df, by=list(cluster=km$cluster), mean)
+
+# On jaoute la classe du cluster au df
+final_data <- cbind(df, cluster = km$cluster)
+
+# Filtrer le df en fonction de la valeur
+data_frame_mod <- data_frame[!is.na(data_frame$col1),]
+
